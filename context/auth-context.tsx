@@ -5,6 +5,7 @@ import { authFunc } from "../lib/AuthFunctions";
 
 type AuthContextType = {
   user: Models.User<Models.Preferences> | null;
+  isLoadingUser: boolean;
   signUp: (email: string, password: string) => Promise<string | null>;
   signIn: (email: string, password: string) => Promise<string | null>;
 };
@@ -19,6 +20,7 @@ export function AuthContextProvider({
   const [user, setUser] = useState<Models.User<Models.Preferences> | null>(
     null
   );
+  const [isLoadingUser, setIsLoadingUser] = useState<boolean>(true);
 
   const { signUp, signIn } = authFunc;
 
@@ -26,13 +28,14 @@ export function AuthContextProvider({
     async function getUserInfo() {
       const session = await getUser();
       setUser(session);
+      setIsLoadingUser(false);
     }
 
     getUserInfo();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, signIn, signUp }}>
+    <AuthContext.Provider value={{ user, isLoadingUser, signIn, signUp }}>
       {children}
     </AuthContext.Provider>
   );
