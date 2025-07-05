@@ -12,7 +12,7 @@ function RouteGuard({ children }: { children: React.ReactNode }) {
       } else {
         router.replace("/");
       }
-    }, 1000);
+    }, 500);
   });
 
   return <>{children}</>;
@@ -21,8 +21,8 @@ function RouteGuard({ children }: { children: React.ReactNode }) {
 export default function RootLayout() {
   return (
     <RouteGuard>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(tabs)" />
       </Stack>
     </RouteGuard>
   );
