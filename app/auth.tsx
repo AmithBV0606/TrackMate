@@ -35,6 +35,8 @@ export default function AuthScreen() {
         setError(error);
         return;
       }
+
+      router.replace("/");
     } else {
       const error = await signIn(email, password);
       if (error) {
