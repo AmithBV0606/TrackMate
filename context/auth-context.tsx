@@ -46,6 +46,16 @@ export function AuthContextProvider({
     }
   }
 
+  // SignUp function using appwrite :
+  async function signOut() {
+    try {
+      await account.deleteSession("current");
+      setUser(null);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   // getUser function using appwrite :
   async function getUser() {
     try {
@@ -64,7 +74,9 @@ export function AuthContextProvider({
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isLoadingUser, signUp, signIn }}>
+    <AuthContext.Provider
+      value={{ user, isLoadingUser, signUp, signIn, signOut }}
+    >
       {children}
     </AuthContext.Provider>
   );
