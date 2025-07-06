@@ -1,6 +1,10 @@
 import { AuthContextProvider, useAuth } from "@/context/auth-context";
 import { Stack, useRouter, useSegments } from "expo-router";
 import { useEffect } from "react";
+import { PaperProvider } from "react-native-paper";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+
+// SafeAreaProvider - To make our App's screen adaptive to abstructive areas like notch.
 
 function RouteGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -26,11 +30,15 @@ function RouteGuard({ children }: { children: React.ReactNode }) {
 export default function RootLayout() {
   return (
     <AuthContextProvider>
-      <RouteGuard>
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="(tabs)" />
-        </Stack>
-      </RouteGuard>
+      <PaperProvider>
+        <SafeAreaProvider>
+          <RouteGuard>
+            <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="(tabs)" />
+            </Stack>
+          </RouteGuard>
+        </SafeAreaProvider>
+      </PaperProvider>
     </AuthContextProvider>
   );
 }
