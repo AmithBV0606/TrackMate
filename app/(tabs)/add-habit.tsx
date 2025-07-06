@@ -1,6 +1,7 @@
-import { FREQUENCIES, FrequencyType } from "@/constants";
+import { FREQUENCIES } from "@/constants";
 import { useAuth } from "@/context/auth-context";
 import { DATABASE_ID, databases, HABITS_COLLECTION_ID } from "@/lib/appwrite";
+import { FrequencyType } from "@/types";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";

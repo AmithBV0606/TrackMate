@@ -1,3 +1,4 @@
+import { FREQUENCIES } from "@/constants";
 import { Models } from "react-native-appwrite";
 
 export type AuthContextType = {
@@ -7,3 +8,5 @@ export type AuthContextType = {
   signIn: (email: string, password: string) => Promise<string | null>;
   signOut: () => Promise<void>;
 };
+
+export type FrequencyType = (typeof FREQUENCIES)[number];
