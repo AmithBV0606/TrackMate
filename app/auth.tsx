@@ -5,13 +5,13 @@ import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
 import { Button, Text, TextInput, useTheme } from "react-native-paper";
 
 export default function AuthScreen() {
-  const [isSignUp, setIsSignUp] = useState<boolean>(true);
+  const [isSignUp, setIsSignUp] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>("");
 
   const theme = useTheme();
-  
+
   const router = useRouter();
 
   const { signIn, signUp } = useAuth();
@@ -35,8 +35,6 @@ export default function AuthScreen() {
         setError(error);
         return;
       }
-
-      router.replace("/");
     } else {
       const error = await signIn(email, password);
       if (error) {
