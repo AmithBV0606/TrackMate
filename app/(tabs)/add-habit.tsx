@@ -1,12 +1,60 @@
 import { FREQUENCIES, FrequencyType } from "@/constants";
+import { useAuth } from "@/context/auth-context";
+import { DATABASE_ID, databases, HABITS_COLLECTION_ID } from "@/lib/appwrite";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Button, SegmentedButtons, TextInput } from "react-native-paper";
+import { ID } from "react-native-appwrite";
+import {
+  Button,
+  SegmentedButtons,
+  Text,
+  TextInput,
+  useTheme,
+} from "react-native-paper";
 
 export default function AddHabitScreen() {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [frequency, setFrequency] = useState<FrequencyType>("daily");
+  const [error, setError] = useState<string>("");
+
+  const router = useRouter();
+
+  const theme = useTheme();
+
+  // Get the user :
+  const { user } = useAuth();
+
+  const handleSubmit = async () => {
+    if (!user) return;
+
+    try {
+      await databases.createDocument(
+        DATABASE_ID,
+        HABITS_COLLECTION_ID,
+        ID.unique(),
+        {
+          user_id: user.$id,
+          title: title,
+          description: description,
+          streak_count: 0,
+          last_completed: new Date().toISOString(),
+          frequency: frequency,
+          created_at: new Date().toISOString(),
+        }
+      );
+
+      router.back();
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+        return;
+      }
+
+      setError("There was an error creating the habit!!");
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -35,7 +83,17 @@ export default function AddHabitScreen() {
         />
       </View>
 
-      <Button mode="contained" disabled={!title || !description}>
+      {error && (
+        <Text style={{ color: theme.colors.error, marginBottom: 15 }}>
+          {error}
+        </Text>
+      )}
+
+      <Button
+        mode="contained"
+        disabled={!title || !description}
+        onPress={handleSubmit}
+      >
         Add Habit
       </Button>
     </View>
