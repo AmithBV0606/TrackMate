@@ -1,3 +1,5 @@
+import RenderRightActions from "@/components/render-left-actions";
+import RenderLeftActions from "@/components/render-right-actions";
 import { useAuth } from "@/context/auth-context";
 import {
   client,
@@ -7,13 +9,16 @@ import {
 } from "@/lib/appwrite";
 import { Habit, RealtimeResponse } from "@/types";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Query } from "react-native-appwrite";
+import { Swipeable } from "react-native-gesture-handler";
 import { Button, Surface, Text } from "react-native-paper";
 
 export default function HomeScreen() {
   const [habits, setHabits] = useState<Habit[]>();
+
+  const swipeableRefs = useRef<{ [key: string]: Swipeable | null }>({});
 
   const { user, signOut } = useAuth();
 
@@ -97,35 +102,48 @@ export default function HomeScreen() {
           </View>
         ) : (
           habits?.map((habit, key) => (
-            <Surface style={styles.card} elevation={0} key={key}>
-              <View style={styles.cardContent}>
-                <Text style={styles.cardTitle}>{habit.title}</Text>
-                <Text style={styles.cardDescription}>{habit.description}</Text>
+            <Swipeable
+              key={key}
+              ref={(ref) => {
+                swipeableRefs.current[habit.$id] = ref;
+              }}
+              overshootLeft={false}
+              overshootRight={false}
+              renderLeftActions={RenderLeftActions}
+              renderRightActions={RenderRightActions}
+            >
+              <Surface style={styles.card} elevation={0}>
+                <View style={styles.cardContent}>
+                  <Text style={styles.cardTitle}>{habit.title}</Text>
+                  <Text style={styles.cardDescription}>
+                    {habit.description}
+                  </Text>
 
-                <View style={styles.cardFooter}>
-                  {/* Streaks : */}
-                  <View style={styles.streakBadge}>
-                    <MaterialCommunityIcons
-                      name="fire"
-                      size={18}
-                      color={"#ff9800"}
-                    />
+                  <View style={styles.cardFooter}>
+                    {/* Streaks : */}
+                    <View style={styles.streakBadge}>
+                      <MaterialCommunityIcons
+                        name="fire"
+                        size={18}
+                        color={"#ff9800"}
+                      />
 
-                    <Text style={styles.streakText}>
-                      {habit.streak_count} days streak
-                    </Text>
-                  </View>
+                      <Text style={styles.streakText}>
+                        {habit.streak_count} days streak
+                      </Text>
+                    </View>
 
-                  {/* Frequency : */}
-                  <View style={styles.frequencyBadge}>
-                    <Text style={styles.frequencyText}>
-                      {habit.frequency.charAt(0).toUpperCase() +
-                        habit.frequency.slice(1)}
-                    </Text>
+                    {/* Frequency : */}
+                    <View style={styles.frequencyBadge}>
+                      <Text style={styles.frequencyText}>
+                        {habit.frequency.charAt(0).toUpperCase() +
+                          habit.frequency.slice(1)}
+                      </Text>
+                    </View>
                   </View>
                 </View>
-              </View>
-            </Surface>
+              </Surface>
+            </Swipeable>
           ))
         )}
       </ScrollView>
