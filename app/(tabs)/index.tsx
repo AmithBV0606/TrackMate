@@ -141,7 +141,7 @@ export default function HomeScreen() {
                 if (direction === "right") {
                   handleDeleteHabit(habit.$id);
                 } else if (direction === "left") {
-                  handleCompleteHabit(habit.$id, user, habits);
+                  handleCompleteHabit(habit.$id, user, habits, completedHabits);
                 }
 
                 swipeableRefs.current[habit.$id]?.close();

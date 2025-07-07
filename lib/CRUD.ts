@@ -20,9 +20,10 @@ export const handleDeleteHabit = async (id: string) => {
 export const handleCompleteHabit = async (
   id: string,
   user: Models.User<Models.Preferences> | null,
-  habits: Habit[]
+  habits: Habit[],
+  completedHabits: string[]
 ) => {
-  if (!user) return;
+  if (!user || completedHabits.includes(id)) return;
 
   // When a habit is marked as completed, we need to create a new entry in the habit_completion collection and update the habit collection(streak_count and last_completed).
   try {
