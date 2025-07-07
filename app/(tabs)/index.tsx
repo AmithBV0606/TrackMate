@@ -7,6 +7,7 @@ import {
   databases,
   HABITS_COLLECTION_ID,
 } from "@/lib/appwrite";
+import { handleDeleteHabit } from "@/lib/CRUD";
 import { Habit, RealtimeResponse } from "@/types";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect, useRef, useState } from "react";
@@ -111,6 +112,14 @@ export default function HomeScreen() {
               overshootRight={false}
               renderLeftActions={RenderLeftActions}
               renderRightActions={RenderRightActions}
+              onSwipeableOpen={(direction) => {
+                // This is opposite i.e "right" means swipe left and "left" means swipe right
+                if (direction === "right") {
+                  handleDeleteHabit(habit.$id);
+                }
+
+                swipeableRefs.current[habit.$id]?.close();
+              }}
             >
               <Surface style={styles.card} elevation={0}>
                 <View style={styles.cardContent}>
