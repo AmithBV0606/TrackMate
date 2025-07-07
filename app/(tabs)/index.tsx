@@ -1,6 +1,11 @@
 import { useAuth } from "@/context/auth-context";
-import { DATABASE_ID, databases, HABITS_COLLECTION_ID } from "@/lib/appwrite";
-import { Habit } from "@/types";
+import {
+  client,
+  DATABASE_ID,
+  databases,
+  HABITS_COLLECTION_ID,
+} from "@/lib/appwrite";
+import { Habit, RealtimeResponse } from "@/types";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
@@ -27,9 +32,47 @@ export default function HomeScreen() {
     }
   };
 
+  // Solution without Subscription :
+  // useEffect(() => {
+  //   fetchHabits();
+  // }, [habits]);
+
   useEffect(() => {
-    fetchHabits();
-  }, [habits]);
+    if (user) {
+      const channel = `databases.${DATABASE_ID}.collections.${HABITS_COLLECTION_ID}.documents`;
+
+      const habitsSubscription = client.subscribe(
+        channel,
+        (response: RealtimeResponse) => {
+          if (
+            response.events.includes(
+              "databases.*.collections.*.documents.*.create"
+            )
+          ) {
+            fetchHabits();
+          } else if (
+            response.events.includes(
+              "databases.*.collections.*.documents.*.update"
+            )
+          ) {
+            fetchHabits();
+          } else if (
+            response.events.includes(
+              "databases.*.collections.*.documents.*.delete"
+            )
+          ) {
+            fetchHabits();
+          }
+        }
+      );
+
+      fetchHabits();
+
+      return () => {
+        habitsSubscription();
+      };
+    }
+  }, [user]);
 
   return (
     <View style={styles.container}>

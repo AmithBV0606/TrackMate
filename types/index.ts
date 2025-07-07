@@ -20,3 +20,8 @@ export interface Habit extends Models.Document {
   frequency: string;
   created_at: string;
 }
+
+export interface RealtimeResponse {
+  events: string[];
+  payload: any;
+}
