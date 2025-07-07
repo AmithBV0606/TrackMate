@@ -66,6 +66,11 @@ export default function HomeScreen() {
     }
   };
 
+  // To change the color of the completed habit card :
+  const isHabitCompleted = (habitId: string) => {
+    return completedHabits.includes(habitId);
+  };
+
   useEffect(() => {
     if (user) {
       // Habits collection subscription :
@@ -150,7 +155,9 @@ export default function HomeScreen() {
               }}
               overshootLeft={false}
               overshootRight={false}
-              renderLeftActions={RenderLeftActions}
+              renderLeftActions={() =>
+                RenderLeftActions(isHabitCompleted, habit.$id)
+              }
               renderRightActions={RenderRightActions}
               onSwipeableOpen={(direction) => {
                 // This is opposite i.e "right" means swipe left and "left" means swipe right
@@ -163,9 +170,16 @@ export default function HomeScreen() {
                 swipeableRefs.current[habit.$id]?.close();
               }}
             >
-              <Surface style={styles.card} elevation={0}>
+              <Surface
+                style={[
+                  styles.card,
+                  isHabitCompleted(habit.$id) && styles.cardCompleted,
+                ]}
+                elevation={0}
+              >
                 <View style={styles.cardContent}>
                   <Text style={styles.cardTitle}>{habit.title}</Text>
+
                   <Text style={styles.cardDescription}>
                     {habit.description}
                   </Text>
@@ -275,10 +289,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    marginTop: "70%",
   },
   emptyStateText: {
     color: "#666666",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  cardCompleted: {
+    // opacity: 0.9,
+    backgroundColor: "#6CB284",
   },
 });
