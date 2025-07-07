@@ -25,3 +25,9 @@ export interface RealtimeResponse {
   events: string[];
   payload: any;
 }
+
+export interface HabitCompletion extends Models.Document {
+  user_id: string;
+  habit_id: string;
+  completed_at: string;
+}

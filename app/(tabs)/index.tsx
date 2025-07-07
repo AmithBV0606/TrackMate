@@ -3,12 +3,13 @@ import RenderLeftActions from "@/components/render-right-actions";
 import { useAuth } from "@/context/auth-context";
 import {
   client,
+  COMPLETION_COLLECTION_ID,
   DATABASE_ID,
   databases,
   HABITS_COLLECTION_ID,
 } from "@/lib/appwrite";
 import { handleCompleteHabit, handleDeleteHabit } from "@/lib/CRUD";
-import { Habit, RealtimeResponse } from "@/types";
+import { Habit, HabitCompletion, RealtimeResponse } from "@/types";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect, useRef, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
@@ -18,11 +19,13 @@ import { Button, Surface, Text } from "react-native-paper";
 
 export default function HomeScreen() {
   const [habits, setHabits] = useState<Habit[]>();
+  const [completedHabits, setCompletedHabits] = useState<string[]>([]);
 
   const swipeableRefs = useRef<{ [key: string]: Swipeable | null }>({});
 
   const { user, signOut } = useAuth();
 
+  // Fetch habits from the "habits" collections :
   const fetchHabits = async () => {
     try {
       const response = await databases.listDocuments(
@@ -38,10 +41,30 @@ export default function HomeScreen() {
     }
   };
 
-  // Solution without Subscription :
-  // useEffect(() => {
-  //   fetchHabits();
-  // }, [habits]);
+  // Fetch habits from "habit_completion" collections :
+  const fetchTodaysCompletions = async () => {
+    try {
+      // Today's date(Resets the date to midnight)  :
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      // Fetch completed habits, that was completed today after midnight, from the "habit_completion" collections :
+      const response = await databases.listDocuments(
+        DATABASE_ID,
+        COMPLETION_COLLECTION_ID,
+        [
+          Query.equal("user_id", user?.$id ?? ""),
+          Query.greaterThanEqual("completed_at", today.toISOString()),
+        ]
+      );
+
+      // Create a state variable of an array of strings, fill it only with the "habit_id" of the habits that were completed after today's midnight.
+      const completions = response.documents as HabitCompletion[];
+      setCompletedHabits(completions.map((c) => c.habit_id));
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     if (user) {
@@ -73,6 +96,7 @@ export default function HomeScreen() {
       );
 
       fetchHabits();
+      fetchTodaysCompletions();
 
       return () => {
         habitsSubscription();
