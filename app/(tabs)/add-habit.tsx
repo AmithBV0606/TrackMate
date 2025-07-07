@@ -2,8 +2,9 @@ import { FREQUENCIES } from "@/constants";
 import { useAuth } from "@/context/auth-context";
 import { DATABASE_ID, databases, HABITS_COLLECTION_ID } from "@/lib/appwrite";
 import { FrequencyType } from "@/types";
+import { useFocusEffect } from "@react-navigation/native";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { ID } from "react-native-appwrite";
 import {
@@ -57,12 +58,23 @@ export default function AddHabitScreen() {
     }
   };
 
+  // ✅ Reset the form when this screen is focused
+  useFocusEffect(
+    useCallback(() => {
+      setTitle("");
+      setDescription("");
+      setFrequency("daily");
+      setError("");
+    }, [])
+  );
+
   return (
     <View style={styles.container}>
       <TextInput
         label={"Title"}
         mode="outlined"
         style={styles.input}
+        value={title}
         onChangeText={setTitle}
       />
 
@@ -70,6 +82,7 @@ export default function AddHabitScreen() {
         label={"Description"}
         mode="outlined"
         style={styles.input}
+        value={description}
         onChangeText={setDescription}
       />
 
