@@ -68,10 +68,10 @@ export default function HomeScreen() {
 
   useEffect(() => {
     if (user) {
-      const channel = `databases.${DATABASE_ID}.collections.${HABITS_COLLECTION_ID}.documents`;
-
+      // Habits collection subscription :
+      const habitsChannel = `databases.${DATABASE_ID}.collections.${HABITS_COLLECTION_ID}.documents`;
       const habitsSubscription = client.subscribe(
-        channel,
+        habitsChannel,
         (response: RealtimeResponse) => {
           if (
             response.events.includes(
@@ -95,11 +95,27 @@ export default function HomeScreen() {
         }
       );
 
+      // habit_completion collection subscription :
+      const completionsChannel = `databases.${DATABASE_ID}.collections.${COMPLETION_COLLECTION_ID}.documents`;
+      const completionSubscription = client.subscribe(
+        completionsChannel,
+        (response: RealtimeResponse) => {
+          if (
+            response.events.includes(
+              "databases.*.collections.*.documents.*.create"
+            )
+          ) {
+            fetchTodaysCompletions();
+          }
+        }
+      );
+
       fetchHabits();
       fetchTodaysCompletions();
 
       return () => {
         habitsSubscription();
+        completionSubscription();
       };
     }
   }, [user]);
