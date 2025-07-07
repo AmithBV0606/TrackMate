@@ -7,7 +7,7 @@ import {
   databases,
   HABITS_COLLECTION_ID,
 } from "@/lib/appwrite";
-import { handleDeleteHabit } from "@/lib/CRUD";
+import { handleCompleteHabit, handleDeleteHabit } from "@/lib/CRUD";
 import { Habit, RealtimeResponse } from "@/types";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect, useRef, useState } from "react";
@@ -116,6 +116,8 @@ export default function HomeScreen() {
                 // This is opposite i.e "right" means swipe left and "left" means swipe right
                 if (direction === "right") {
                   handleDeleteHabit(habit.$id);
+                } else if (direction === "left") {
+                  handleCompleteHabit(habit.$id, user, habits);
                 }
 
                 swipeableRefs.current[habit.$id]?.close();
