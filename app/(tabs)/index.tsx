@@ -8,7 +8,7 @@ import {
 import { Habit, RealtimeResponse } from "@/types";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { Query } from "react-native-appwrite";
 import { Button, Surface, Text } from "react-native-paper";
 
@@ -88,45 +88,47 @@ export default function HomeScreen() {
       </View>
 
       {/* To display habits : */}
-      {habits?.length === 0 ? (
-        <View style={styles.emptyState}>
-          <Text style={styles.emptyStateText}>
-            No Habits yet. Add your first Habit!!
-          </Text>
-        </View>
-      ) : (
-        habits?.map((habit, key) => (
-          <Surface style={styles.card} elevation={0} key={key}>
-            <View style={styles.cardContent}>
-              <Text style={styles.cardTitle}>{habit.title}</Text>
-              <Text style={styles.cardDescription}>{habit.description}</Text>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {habits?.length === 0 ? (
+          <View style={styles.emptyState}>
+            <Text style={styles.emptyStateText}>
+              No Habits yet. Add your first Habit!!
+            </Text>
+          </View>
+        ) : (
+          habits?.map((habit, key) => (
+            <Surface style={styles.card} elevation={0} key={key}>
+              <View style={styles.cardContent}>
+                <Text style={styles.cardTitle}>{habit.title}</Text>
+                <Text style={styles.cardDescription}>{habit.description}</Text>
 
-              <View style={styles.cardFooter}>
-                {/* Streaks : */}
-                <View style={styles.streakBadge}>
-                  <MaterialCommunityIcons
-                    name="fire"
-                    size={18}
-                    color={"#ff9800"}
-                  />
+                <View style={styles.cardFooter}>
+                  {/* Streaks : */}
+                  <View style={styles.streakBadge}>
+                    <MaterialCommunityIcons
+                      name="fire"
+                      size={18}
+                      color={"#ff9800"}
+                    />
 
-                  <Text style={styles.streakText}>
-                    {habit.streak_count} days streak
-                  </Text>
-                </View>
+                    <Text style={styles.streakText}>
+                      {habit.streak_count} days streak
+                    </Text>
+                  </View>
 
-                {/* Frequency : */}
-                <View style={styles.frequencyBadge}>
-                  <Text style={styles.frequencyText}>
-                    {habit.frequency.charAt(0).toUpperCase() +
-                      habit.frequency.slice(1)}
-                  </Text>
+                  {/* Frequency : */}
+                  <View style={styles.frequencyBadge}>
+                    <Text style={styles.frequencyText}>
+                      {habit.frequency.charAt(0).toUpperCase() +
+                        habit.frequency.slice(1)}
+                    </Text>
+                  </View>
                 </View>
               </View>
-            </View>
-          </Surface>
-        ))
-      )}
+            </Surface>
+          ))
+        )}
+      </ScrollView>
     </View>
   );
 }
