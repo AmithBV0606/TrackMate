@@ -21,6 +21,7 @@ export default function TabsLayout() {
         name="index"
         options={{
           title: "Today's Habits",
+          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name="calendar-today"
