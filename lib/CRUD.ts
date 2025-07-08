@@ -94,12 +94,12 @@ export const getStreakData = (
         currentStreak = 1;
       }
     } else {
-      if (currentStreak > bestStreak) {
-        bestStreak = currentStreak;
-      }
-      streak = currentStreak;
-      lastDate = date;
+      currentStreak = 1;
     }
+
+    if (currentStreak > bestStreak) bestStreak = currentStreak;
+    streak = currentStreak;
+    lastDate = date;
   });
 
   return { streak, bestStreak, total };
