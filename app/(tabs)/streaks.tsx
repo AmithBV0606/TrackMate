@@ -5,10 +5,12 @@ import {
   databases,
   HABITS_COLLECTION_ID,
 } from "@/lib/appwrite";
+import { getStreakData } from "@/lib/CRUD";
 import { Habit, HabitCompletion } from "@/types";
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Query } from "react-native-appwrite";
+import { Text } from "react-native-paper";
 
 export default function StreaksScreen() {
   const [habits, setHabits] = useState<Habit[]>([]);
@@ -54,6 +56,20 @@ export default function StreaksScreen() {
       fetchCompletions();
     }
   }, [user]);
+
+  // Ranking Habits by Streak
+  const habitStreaks = habits.map((habit) => {
+    const { streak, bestStreak, total } = getStreakData(
+      habit.$id,
+      completedHabits
+    );
+
+    return { habit, streak, bestStreak, total };
+  });
+
+  const rankedHabits = habitStreaks.sort((a, b) => a.bestStreak - b.bestStreak);
+
+  // console.log(rankedHabits.map((h) => h.habit.title));
 
   return (
     <View style={styles.container}>
