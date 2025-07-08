@@ -1,12 +1,13 @@
 import { useAuth } from "@/context/auth-context";
 import {
+  client,
   COMPLETION_COLLECTION_ID,
   DATABASE_ID,
   databases,
   HABITS_COLLECTION_ID,
 } from "@/lib/appwrite";
 import { getStreakData } from "@/lib/CRUD";
-import { Habit, HabitCompletion } from "@/types";
+import { Habit, HabitCompletion, RealtimeResponse } from "@/types";
 import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Query } from "react-native-appwrite";
@@ -52,8 +53,55 @@ export default function StreaksScreen() {
 
   useEffect(() => {
     if (user) {
+      // Habits collection subscription :
+      const habitsChannel = `databases.${DATABASE_ID}.collections.${HABITS_COLLECTION_ID}.documents`;
+      const habitsSubscription = client.subscribe(
+        habitsChannel,
+        (response: RealtimeResponse) => {
+          if (
+            response.events.includes(
+              "databases.*.collections.*.documents.*.create"
+            )
+          ) {
+            fetchHabits();
+          } else if (
+            response.events.includes(
+              "databases.*.collections.*.documents.*.update"
+            )
+          ) {
+            fetchHabits();
+          } else if (
+            response.events.includes(
+              "databases.*.collections.*.documents.*.delete"
+            )
+          ) {
+            fetchHabits();
+          }
+        }
+      );
+
+      // habit_completion collection subscription :
+      const completionsChannel = `databases.${DATABASE_ID}.collections.${COMPLETION_COLLECTION_ID}.documents`;
+      const completionSubscription = client.subscribe(
+        completionsChannel,
+        (response: RealtimeResponse) => {
+          if (
+            response.events.includes(
+              "databases.*.collections.*.documents.*.create"
+            )
+          ) {
+            fetchCompletions();
+          }
+        }
+      );
+
       fetchHabits();
       fetchCompletions();
+
+      return () => {
+        habitsSubscription();
+        completionSubscription();
+      };
     }
   }, [user]);
 
