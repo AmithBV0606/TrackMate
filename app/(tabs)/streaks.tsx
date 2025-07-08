@@ -159,7 +159,7 @@ export default function StreaksScreen() {
       ) : (
         <ScrollView
           showsVerticalScrollIndicator={false}
-          style={styles.container}
+          style={styles.streaksContainer}
         >
           {rankedHabits.map(({ habit, streak, bestStreak, total }, key) => (
             <Card
@@ -206,13 +206,14 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: "#f5f5f5",
+    marginTop: 50,
   },
   title: {
     fontWeight: "bold",
     marginBottom: 16,
   },
   rankingContainer: {
-    marginBottom: 24,
+    // marginBottom: 12,
     backgroundColor: "#fff",
     borderRadius: 16,
     padding: 16,
@@ -274,6 +275,12 @@ const styles = StyleSheet.create({
     color: "#666666",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  streaksContainer: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: "#f5f5f5",
+    marginTop: 20,
   },
   card: {
     borderRadius: 18,

@@ -36,6 +36,7 @@ export default function TabsLayout() {
         name="streaks"
         options={{
           title: "Streaks",
+          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name="chart-line"
