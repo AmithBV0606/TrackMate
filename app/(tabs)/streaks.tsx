@@ -11,8 +11,8 @@ import { StyleSheet, Text, View } from "react-native";
 import { Query } from "react-native-appwrite";
 
 export default function StreaksScreen() {
-  const [habits, setHabits] = useState<Habit[]>();
-  const [completedHabits, setCompletedHabits] = useState<HabitCompletion[]>();
+  const [habits, setHabits] = useState<Habit[]>([]);
+  const [completedHabits, setCompletedHabits] = useState<HabitCompletion[]>([]);
 
   const { user } = useAuth();
 
