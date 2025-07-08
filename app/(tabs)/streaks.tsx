@@ -120,11 +120,35 @@ export default function StreaksScreen() {
 
   // console.log(rankedHabits.map((h) => h.habit.title));
 
+  const badgeStyles = [styles.badge1, styles.badge2, styles.badge3];
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title} variant="titleLarge">
+      <Text style={styles.title} variant="headlineSmall">
         Habit Streaks
       </Text>
+
+      {/* Building Top 3 Habit Leaderboard : */}
+      {rankedHabits.length > 0 && (
+        <View style={styles.rankingContainer}>
+          <Text style={styles.rankingTitle}>🥇 Top Streaks</Text>
+
+          {rankedHabits.slice(0, 3).map((item, key) => (
+            <View key={key} style={styles.rankingRow}>
+              {/* Rank number : */}
+              <View style={[styles.rankingBadge, badgeStyles[key]]}>
+                <Text style={styles.rankingBadgeText}>{key + 1}</Text>
+              </View>
+
+              {/* Top rank habit's title : */}
+              <Text style={styles.rankingHabit}>{item.habit.title}</Text>
+
+              {/* Top rank habit's bestStreak : */}
+              <Text style={styles.rankingStreak}>{item.bestStreak}</Text>
+            </View>
+          ))}
+        </View>
+      )}
 
       {habits.length === 0 ? (
         <View style={styles.emptyState}>
@@ -186,6 +210,60 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "bold",
     marginBottom: 16,
+  },
+  rankingContainer: {
+    marginBottom: 24,
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    padding: 16,
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+  },
+  rankingTitle: {
+    fontWeight: "bold",
+    fontSize: 18,
+    marginBottom: 12,
+    color: "#7c4dff",
+    letterSpacing: 0.5,
+  },
+  rankingRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: "#f0f0f0",
+    paddingBottom: 8,
+  },
+  rankingBadge: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 10,
+    backgroundColor: "#e0e0e0",
+  },
+  badge1: { backgroundColor: "#ffd700" }, // Gold
+  badge2: { backgroundColor: "#c0c0c0" }, // Silver
+  badge3: { backgroundColor: "#cd7f32" }, // Bronze
+  rankingBadgeText: {
+    fontWeight: "bold",
+    color: "#fff",
+    fontSize: 15,
+  },
+  rankingHabit: {
+    flex: 1,
+    fontSize: 15,
+    color: "#333",
+    fontWeight: 800,
+  },
+  rankingStreak: {
+    fontSize: 14,
+    color: "#7c4dff",
+    fontWeight: "bold",
   },
   emptyState: {
     flex: 1,
