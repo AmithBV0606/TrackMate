@@ -11,6 +11,7 @@ import { Habit, HabitCompletion, RealtimeResponse } from "@/types";
 import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Query } from "react-native-appwrite";
+import { ScrollView } from "react-native-gesture-handler";
 import { Card, Text } from "react-native-paper";
 
 export default function StreaksScreen() {
@@ -132,37 +133,45 @@ export default function StreaksScreen() {
           </Text>
         </View>
       ) : (
-        rankedHabits.map(({ habit, streak, bestStreak, total }, key) => (
-          <Card key={key} style={[styles.card, key === 0 && styles.firstCard]}>
-            <Card.Content>
-              <Text variant="titleMedium" style={styles.habitTitle}>
-                {habit.title}
-              </Text>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={styles.container}
+        >
+          {rankedHabits.map(({ habit, streak, bestStreak, total }, key) => (
+            <Card
+              key={key}
+              style={[styles.card, key === 0 && styles.firstCard]}
+            >
+              <Card.Content>
+                <Text variant="titleMedium" style={styles.habitTitle}>
+                  {habit.title}
+                </Text>
 
-              <Text style={styles.habitDescription}>{habit.description}</Text>
+                <Text style={styles.habitDescription}>{habit.description}</Text>
 
-              <View style={styles.statsRow}>
-                {/* Current Streak : */}
-                <View style={styles.statsBadge}>
-                  <Text style={styles.statsText}>🔥 {streak}</Text>
-                  <Text style={styles.statsLabel}>Current</Text>
+                <View style={styles.statsRow}>
+                  {/* Current Streak : */}
+                  <View style={styles.statsBadge}>
+                    <Text style={styles.statsText}>🔥 {streak}</Text>
+                    <Text style={styles.statsLabel}>Current</Text>
+                  </View>
+
+                  {/* Best Streak : */}
+                  <View style={styles.statsBadgeGold}>
+                    <Text style={styles.statsText}>🏆 {bestStreak}</Text>
+                    <Text style={styles.statsLabel}>Best</Text>
+                  </View>
+
+                  {/* Total Streak : */}
+                  <View style={styles.statsBadgeGreen}>
+                    <Text style={styles.statsText}>✅ {total}</Text>
+                    <Text style={styles.statsLabel}>Total</Text>
+                  </View>
                 </View>
-
-                {/* Best Streak : */}
-                <View style={styles.statsBadgeGold}>
-                  <Text style={styles.statsText}>🏆 {bestStreak}</Text>
-                  <Text style={styles.statsLabel}>Best</Text>
-                </View>
-
-                {/* Total Streak : */}
-                <View style={styles.statsBadgeGreen}>
-                  <Text style={styles.statsText}>✅ {total}</Text>
-                  <Text style={styles.statsLabel}>Total</Text>
-                </View>
-              </View>
-            </Card.Content>
-          </Card>
-        ))
+              </Card.Content>
+            </Card>
+          ))}
+        </ScrollView>
       )}
     </View>
   );
