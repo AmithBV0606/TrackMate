@@ -112,7 +112,6 @@ export default function AuthScreen() {
       width: 220,
       height: 120,
       alignSelf: "center",
-      marginTop: 8,
       marginBottom: 16,
     },
   });
