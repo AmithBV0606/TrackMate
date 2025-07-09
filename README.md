@@ -1,50 +1,108 @@
-# Welcome to your Expo app 👋
+# 📱 TrackMate – Habit Tracker App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+TrackMate is a beautifully designed mobile habit tracker app built with React Native, Expo, and React Native Paper, with Appwrite powering the backend. TrackMate helps users build better habits, stay consistent, and achieve their personal growth goals with ease.
 
-## Get started
+##
 
-1. Install dependencies
+### 🚀 Features :
 
-   ```bash
-   npm install
-   ```
+- ✅ Add, edit, and delete habits.
 
-2. Start the app
+- 🗓️ Add habits based on frequency (Daily, Weekly, Monthly).
 
-   ```bash
-   npx expo start
-   ```
+- 📊 Visual indicators for completion.   
 
-In the output, you'll find options to open the app in a
+- 🔐 Secure authentication using Appwrite.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- 🧠 Minimalistic and intuitive UI using React Native Paper.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+##
 
-## Get a fresh project
+### 🛠️ Tech Stack :
 
-When you're ready, run:
+| Tech                   | Description                                          |
+| ---------------------- | ---------------------------------------------------- |
+| **React Native**       | Core UI framework for building the mobile app        |
+| **Expo**               | Fast development and deployment workflow             |
+| **React Native Paper** | Material Design UI components                        |
+| **Appwrite**           | Backend-as-a-Service for authentication and database |
+| **TypeScript**         | For type safety                           |
+
+##
+
+### 📂 Folder Structure :
 
 ```bash
-npm run reset-project
+TrackMate/
+├── app/
+│   ├── (tabs)/           # Main tab layout
+│   ├── add-habit/        # Add habit form
+│   ├── profile/          # Profile & account management
+│   ├── _layout.tsx       # Layout and navigation
+├── components/           # Reusable UI components
+├── lib/                  # Appwrite client setup, utils
+├── constants/            # Colors, styles, etc.
+├── assets/               # Icons, images
+├── App.tsx               # Entry point
+└── README.md
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+##
 
-## Learn more
+### 🔧 Setup & Installation :
 
-To learn more about developing your project with Expo, look at the following resources:
+1. Clone the repository.
+```bash
+git clone https://github.com/your-username/trackmate.git
+cd trackmate
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+2. Install dependencies.
+```bash
+npm install
+# or
+yarn install
+```
 
-## Join the community
+3. Configure Appwrite
 
-Join our community of developers creating universal apps.
+   - Create an Appwrite project.
+   - Enable authentication and database.
+   - Add your Appwrite endpoint and project ID in a config file (e.g., lib/appwrite.ts).
+   - Add environment variables if necessary.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+4. Start the app
+```bash
+npx expo start
+```
+
+##
+
+### 🔒 Environment Variables :
+Create a `.env` file in the root directory and add your Appwrite config :
+
+```bash
+EXPO_PUBLIC_APPWRITE_API_ENDPOINT=
+EXPO_PUBLIC_APPWRITE_PROJECT_ID=
+EXPO_PUBLIC_APPWRITE_PLATFORM=
+
+EXPO_PUBLIC_DB_ID=
+EXPO_PUBLIC_HABITS_COLLECTION_ID=
+EXPO_PUBLIC_COMPLETION_COLLECTION_ID=
+```
+
+##
+
+### 🧠 Future Improvements :
+
+- Notifications for missed habits
+- Streak calendar view
+- Analytics dashboard
+- Cloud sync across devices
+- Offline support
+
+##
+
+### 🧑‍💻 Author :
+
+Made with 💚 by Amith B V
