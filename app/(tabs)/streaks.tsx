@@ -14,6 +14,12 @@ import { Query } from "react-native-appwrite";
 import { ScrollView } from "react-native-gesture-handler";
 import { Card, Text } from "react-native-paper";
 
+const ORANGE = "#FF8800";
+const BLACK = "#111";
+const DARK_CARD = "#2A2B2A";
+const LIGHT_TEXT = "#fff";
+const SUB_TEXT = "#B0B0B0";
+
 export default function StreaksScreen() {
   const [habits, setHabits] = useState<Habit[]>([]);
   const [completedHabits, setCompletedHabits] = useState<HabitCompletion[]>([]);
@@ -131,7 +137,7 @@ export default function StreaksScreen() {
       {/* Building Top 3 Habit Leaderboard : */}
       {rankedHabits.length > 0 && (
         <View style={styles.rankingContainer}>
-          <Text style={styles.rankingTitle}>🥇 Top Streaks</Text>
+          <Text style={styles.rankingTitle}>🏆 Top Streaks</Text>
 
           {rankedHabits.slice(0, 3).map((item, key) => (
             <View key={key} style={styles.rankingRow}>
@@ -205,16 +211,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: "#f5f5f5",
-    marginTop: 50,
+    backgroundColor: BLACK,
+    marginBottom: 60,
   },
   title: {
     fontWeight: "bold",
+    marginTop: 50,
     marginBottom: 16,
+    color: ORANGE,
   },
   rankingContainer: {
-    // marginBottom: 12,
-    backgroundColor: "#fff",
+    backgroundColor: DARK_CARD,
     borderRadius: 16,
     padding: 16,
     elevation: 2,
@@ -222,12 +229,13 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
     shadowRadius: 8,
+    // marginBottom: 10,
   },
   rankingTitle: {
     fontWeight: "bold",
     fontSize: 18,
     marginBottom: 12,
-    color: "#7c4dff",
+    color: ORANGE,
     letterSpacing: 0.5,
   },
   rankingRow: {
@@ -235,7 +243,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 8,
     borderBottomWidth: 1,
-    borderBottomColor: "#f0f0f0",
+    borderBottomColor: DARK_CARD,
     paddingBottom: 8,
   },
   rankingBadge: {
@@ -245,25 +253,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginRight: 10,
-    backgroundColor: "#e0e0e0",
+    backgroundColor: "#444",
   },
-  badge1: { backgroundColor: "#ffd700" }, // Gold
-  badge2: { backgroundColor: "#c0c0c0" }, // Silver
-  badge3: { backgroundColor: "#cd7f32" }, // Bronze
+  badge1: { backgroundColor: "#FFD700" }, // Gold
+  badge2: { backgroundColor: "#C0C0C0" }, // Silver
+  badge3: { backgroundColor: "#CD7F32" }, // Bronze
   rankingBadgeText: {
     fontWeight: "bold",
-    color: "#fff",
+    color: BLACK,
     fontSize: 15,
   },
   rankingHabit: {
     flex: 1,
     fontSize: 15,
-    color: "#333",
-    fontWeight: 800,
+    color: LIGHT_TEXT,
+    fontWeight: "bold",
   },
   rankingStreak: {
     fontSize: 14,
-    color: "#7c4dff",
+    color: ORANGE,
     fontWeight: "bold",
   },
   emptyState: {
@@ -272,40 +280,41 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   emptyStateText: {
-    color: "#666666",
+    color: SUB_TEXT,
     fontSize: 16,
     fontWeight: "bold",
   },
   streaksContainer: {
     flex: 1,
     padding: 16,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: BLACK,
     marginTop: 20,
   },
   card: {
     borderRadius: 18,
     marginBottom: 18,
-    backgroundColor: "#fff",
+    backgroundColor: DARK_CARD,
     elevation: 3,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
     shadowRadius: 8,
     borderWidth: 1,
-    borderColor: "#f0f0f0",
+    borderColor: DARK_CARD,
   },
   firstCard: {
     borderWidth: 2,
-    borderColor: "#7c4dff",
+    borderColor: ORANGE,
   },
   habitTitle: {
     fontWeight: "bold",
     fontSize: 18,
     marginBottom: 2,
+    color: LIGHT_TEXT,
   },
   habitDescription: {
     marginBottom: 8,
-    color: "#6c6c80",
+    color: SUB_TEXT,
   },
   statsRow: {
     flexDirection: "row",
@@ -314,7 +323,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   statsBadge: {
-    backgroundColor: "#fff3e0",
+    backgroundColor: "#2d1600",
     borderRadius: 10,
     paddingHorizontal: 12,
     paddingVertical: 6,
@@ -322,7 +331,7 @@ const styles = StyleSheet.create({
     minWidth: 60,
   },
   statsBadgeGold: {
-    backgroundColor: "#fffde7",
+    backgroundColor: "#FFD70022",
     borderRadius: 10,
     paddingHorizontal: 12,
     paddingVertical: 6,
@@ -330,7 +339,7 @@ const styles = StyleSheet.create({
     minWidth: 60,
   },
   statsBadgeGreen: {
-    backgroundColor: "#e8f5e9",
+    backgroundColor: "#22C55E22",
     borderRadius: 10,
     paddingHorizontal: 12,
     paddingVertical: 6,
@@ -340,12 +349,12 @@ const styles = StyleSheet.create({
   statsText: {
     fontWeight: "bold",
     fontSize: 15,
-    color: "#22223b",
+    color: ORANGE,
   },
   statsLabel: {
     fontSize: 11,
-    color: "#888",
+    color: SUB_TEXT,
     marginTop: 2,
-    fontWeight: 500,
+    fontWeight: "500",
   },
 });
