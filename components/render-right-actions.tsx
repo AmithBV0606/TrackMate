@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "flex-start",
     flex: 1,
-    backgroundColor: "#4caf50",
+    backgroundColor: "#22C55E", // vibrant green
     borderRadius: 18,
     marginBottom: 18,
     marginTop: 2,

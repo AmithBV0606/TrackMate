@@ -133,13 +133,22 @@ export default function HomeScreen() {
           Today&apos;s Habit
         </Text>
 
-        <Button mode="text" onPress={signOut} icon={"logout"}>
+        <Button
+          style={styles.signOutBTN}
+          mode="text"
+          onPress={signOut}
+          icon={"logout"}
+          textColor="#FF8800"
+        >
           Sign Out
         </Button>
       </View>
 
       {/* To display habits : */}
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ marginBottom: 15 }}
+      >
         {habits?.length === 0 ? (
           <View style={styles.emptyState}>
             <Text style={styles.emptyStateText}>
@@ -178,9 +187,21 @@ export default function HomeScreen() {
                 elevation={0}
               >
                 <View style={styles.cardContent}>
-                  <Text style={styles.cardTitle}>{habit.title}</Text>
+                  <Text
+                    style={[
+                      styles.cardTitle,
+                      isHabitCompleted(habit.$id) && { color: BLACK },
+                    ]}
+                  >
+                    {habit.title}
+                  </Text>
 
-                  <Text style={styles.cardDescription}>
+                  <Text
+                    style={[
+                      styles.cardDescription,
+                      isHabitCompleted(habit.$id) && { color: DARK_CARD },
+                    ]}
+                  >
                     {habit.description}
                   </Text>
 
@@ -190,7 +211,7 @@ export default function HomeScreen() {
                       <MaterialCommunityIcons
                         name="fire"
                         size={18}
-                        color={"#ff9800"}
+                        color={ORANGE}
                       />
 
                       <Text style={styles.streakText}>
@@ -216,26 +237,38 @@ export default function HomeScreen() {
   );
 }
 
+const ORANGE = "#FF8800";
+const BLACK = "#111";
+const DARK_CARD = "#2A2B2A";
+const SUB_TEXT = "#B0B0B0";
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: "#f5f5f5",
-    marginTop: 50,
+    backgroundColor: BLACK,
+    marginBottom: 60,
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignContent: "center",
     marginBottom: 24,
+    marginTop: 50,
+  },
+  signOutBTN: {
+    backgroundColor: DARK_CARD,
+    borderRadius: 8,
+    color: ORANGE,
   },
   title: {
     fontWeight: "bold",
+    color: ORANGE,
   },
   card: {
     marginBottom: 18,
     borderRadius: 18,
-    backgroundColor: "#f7f2fa",
+    backgroundColor: DARK_CARD,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
@@ -249,12 +282,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 4,
-    color: "#22223b",
   },
   cardDescription: {
     fontSize: 15,
     marginBottom: 16,
-    color: "#6c6c80",
+    color: SUB_TEXT,
   },
   cardFooter: {
     flexDirection: "row",
@@ -264,25 +296,25 @@ const styles = StyleSheet.create({
   streakBadge: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#fff3e0",
+    backgroundColor: "#2d1600",
     borderRadius: 12,
     paddingHorizontal: 10,
     paddingVertical: 4,
   },
   streakText: {
     marginLeft: 6,
-    color: "#ff9800",
+    color: ORANGE,
     fontWeight: "bold",
     fontSize: 14,
   },
   frequencyBadge: {
-    backgroundColor: "#ede7f6",
+    backgroundColor: "#222",
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 4,
   },
   frequencyText: {
-    color: "#7c4dff",
+    color: ORANGE,
     fontWeight: "bold",
     fontSize: 14,
   },
@@ -293,12 +325,14 @@ const styles = StyleSheet.create({
     marginTop: "80%",
   },
   emptyStateText: {
-    color: "#666666",
-    fontSize: 16,
+    color: ORANGE,
+    fontSize: 20,
     fontWeight: "bold",
   },
   cardCompleted: {
-    // opacity: 0.9,
-    backgroundColor: "#6CB284",
+    // backgroundColor: "#FF6633",
+    backgroundColor: ORANGE,
+    borderWidth: 1,
+    color: BLACK,
   },
 });

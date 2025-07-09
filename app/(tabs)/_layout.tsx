@@ -1,20 +1,28 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 
+const ORANGE = "#FF8800";
+const BLACK = "#201E1F";
+
 export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        headerStyle: { backgroundColor: "#f5f5f5" },
         headerShadowVisible: false,
         tabBarStyle: {
-          backgroundColor: "#f5f5f5",
+          backgroundColor: BLACK,
           borderTopWidth: 0,
           elevation: 0,
           shadowOpacity: 0,
+          borderTopEndRadius: 20,
+          borderTopStartRadius: 20,
+          position: "absolute",
         },
-        tabBarActiveTintColor: "#6200ee",
+        tabBarActiveTintColor: ORANGE,
         tabBarInactiveTintColor: "#666666",
+        tabBarIconStyle: {
+          marginTop: 10,
+        },
       }}
     >
       <Tabs.Screen

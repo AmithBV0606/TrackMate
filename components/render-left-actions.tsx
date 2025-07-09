@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "flex-end",
     flex: 1,
-    backgroundColor: "#e53935",
+    backgroundColor: "#FF3B30", // vibrant red
     borderRadius: 18,
     marginBottom: 18,
     marginTop: 2,
