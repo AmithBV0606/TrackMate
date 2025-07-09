@@ -4,9 +4,15 @@ import { DATABASE_ID, databases, HABITS_COLLECTION_ID } from "@/lib/appwrite";
 import { FrequencyType } from "@/types";
 import { useFocusEffect, useRouter } from "expo-router";
 import { useCallback, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import { ID } from "react-native-appwrite";
-import { Button, SegmentedButtons, Text, TextInput } from "react-native-paper";
+import {
+  Button,
+  SegmentedButtons,
+  Text,
+  TextInput,
+  useTheme,
+} from "react-native-paper";
 
 const ORANGE = "#FF8800";
 const BLACK = "#111";
@@ -22,11 +28,23 @@ export default function AddHabitScreen() {
 
   const router = useRouter();
 
+  const theme = useTheme();
+
   // Get the user :
   const { user } = useAuth();
 
   const handleSubmit = async () => {
     if (!user) return;
+
+    if (title.length === 0) {
+      setError("Title field cannot be empty!!");
+      return;
+    }
+
+    if (description.length === 0) {
+      setError("Description field cannot be empty!!");
+      return;
+    }
 
     try {
       await databases.createDocument(
@@ -67,6 +85,14 @@ export default function AddHabitScreen() {
 
   return (
     <View style={styles.container}>
+      <View style={styles.logoContainer}>
+        <Image
+          source={require("../../assets/images/TrackMate-Logo.png")}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+      </View>
+
       <Text style={styles.title}>Add a New Habit</Text>
 
       <TextInput
@@ -165,7 +191,15 @@ const styles = StyleSheet.create({
     padding: 15,
     backgroundColor: BLACK,
     justifyContent: "center",
-    marginTop: -50,
+    marginTop: -80,
+  },
+  logoContainer: {
+    alignItems: "center",
+    marginBottom: 50,
+  },
+  logo: {
+    width: 120,
+    height: 60,
   },
   title: {
     color: ORANGE,
@@ -211,6 +245,6 @@ const styles = StyleSheet.create({
     // marginTop: 8,
   },
   disabledButton: {
-    backgroundColor: "#333",
+    backgroundColor: "#333", // or any "disabled" shade you prefer
   },
 });
