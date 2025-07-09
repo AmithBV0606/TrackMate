@@ -59,6 +59,7 @@ export default function TabsLayout() {
         name="add-habit"
         options={{
           title: "Add Habit",
+          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name="plus-circle"
