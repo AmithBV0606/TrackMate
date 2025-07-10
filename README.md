@@ -1,5 +1,9 @@
 # 📱 TrackMate – Habit Tracker App
 
+
+https://github.com/user-attachments/assets/cc6e2ce6-a48c-49d5-9fdd-fb618aa546fa
+
+
 TrackMate is a beautifully designed mobile habit tracker app built with React Native, Expo, and React Native Paper, with Appwrite powering the backend. TrackMate helps users build better habits, stay consistent, and achieve their personal growth goals with ease.
 
 ##
